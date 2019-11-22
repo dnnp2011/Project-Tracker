@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:project_logger/models/Task.dart';
-import 'package:project_logger/providers/TimerServiceProvider.dart';
-import 'package:project_logger/themes/android_theme.dart';
+
+import '../models/Task.dart';
+import '../providers/TimerServiceProvider.dart';
+import '../themes/android_theme.dart';
 
 /// TODO: Rebuild the TimerService from scratch given what I now know of the requirements in this Widget
 /// TODO: Start small by creating a local Periodic to drive to Timer, then move to more complex management schemes

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:project_logger/models/Task.dart' show Task, TaskInsight;
-import 'package:project_logger/models/TaskHandler.dart';
-import 'package:project_logger/screens/task_history_screen.dart';
-import 'package:project_logger/themes/android_theme.dart';
-import 'package:project_logger/widgets/active_task.dart' show ActiveTask;
-import 'package:project_logger/widgets/screen.dart';
+
+import '../models/Task.dart' show Task, TaskInsight;
+import '../models/TaskHandler.dart';
+import '../screens/task_history_screen.dart';
+import '../themes/android_theme.dart';
+import '../widgets/active_task.dart' show ActiveTask;
+import '../widgets/screen.dart';
 
 class TaskScreen extends StatefulWidget {
   Task task;

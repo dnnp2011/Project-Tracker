@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project_logger/models/Task.dart';
+
+import '../models/Task.dart';
 
 class TaskHistoryScreen extends StatelessWidget {
   Task task;

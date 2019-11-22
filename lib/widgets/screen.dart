@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:project_logger/models/Task.dart';
-import 'package:project_logger/widgets/new_task_form.dart';
+
+import '../models/Task.dart';
+import '../widgets/new_task_form.dart';
 
 void _defaultGoBack(BuildContext context) => Navigator.pop(context);
 

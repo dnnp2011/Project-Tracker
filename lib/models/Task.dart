@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart' show required;
-import 'package:project_logger/services/TimerService.dart';
+
+import '../services/TimerService.dart';
 
 /// A data representation of time spent on a single task, spread throughout some number of "[_Sprint]s" (ie. sessions)
 class Task {

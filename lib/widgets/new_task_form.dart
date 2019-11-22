@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project_logger/models/Task.dart';
-import 'package:project_logger/widgets/styled_form_field.dart';
+
+import '../models/Task.dart';
+import '../widgets/styled_form_field.dart';
 
 class NewTaskForm extends StatefulWidget {
   bool _showTitleError = false;

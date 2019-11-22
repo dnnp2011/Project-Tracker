@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:project_logger/models/Task.dart' show Task;
-import 'package:project_logger/models/TaskHandler.dart';
-import 'package:project_logger/widgets/screen.dart';
-import 'package:project_logger/widgets/task_card.dart';
+
+import '../models/Task.dart' show Task;
+import '../models/TaskHandler.dart';
+import '../widgets/screen.dart';
+import '../widgets/task_card.dart';
 
 class TaskListScreen extends StatefulWidget {
   List<Task> tasks = <Task>[];

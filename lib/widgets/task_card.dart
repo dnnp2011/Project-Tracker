@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:project_logger/models/Task.dart';
+
+import '../models/Task.dart';
 
 class TaskCard extends StatelessWidget {
   Task task;
@@ -50,6 +51,5 @@ class TaskCard extends StatelessWidget {
         ),
       ),
     );
-    ;
   }
 }
