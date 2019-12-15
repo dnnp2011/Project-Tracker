@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 
 import '../models/Task.dart' show Task, TaskInsight;
-import '../models/TaskHandler.dart';
 import '../screens/task_history_screen.dart';
 import '../themes/android_theme.dart';
 import '../widgets/active_task.dart' show ActiveTask;
 import '../widgets/screen.dart';
 
-class TaskScreen extends StatefulWidget {
+class TaskDetailsScreen extends StatefulWidget {
   Task task;
   Widget currentWidget;
   Widget timerWidget;
   Widget insightsWidget;
 
-  TaskScreen(BuildContext context) {
+  TaskDetailsScreen(BuildContext context) {
     var args = ModalRoute.of(context).settings.arguments as Map;
-    assert(args['task'] != null, 'TaskScreen constructor - Route Arguments.task is null!');
+    assert(args['task'] != null, 'TaskDetailsScreen constructor - Route Arguments.task is null!');
     this.task = args['task'] as Task;
     timerWidget = ActiveTask(task);
     insightsWidget = TaskHistoryScreen(task);
@@ -25,21 +24,13 @@ class TaskScreen extends StatefulWidget {
   }
 
   @override
-  _TaskScreenState createState() => _TaskScreenState();
+  _TaskDetailsState createState() => _TaskDetailsState();
 }
 
-class _TaskScreenState extends State<TaskScreen> implements TaskHandler {
-  @override
-  void handleNewTask(Task task) {
-    assert(task != null, 'TaskScreenState handleNewTask() -> task is null');
-
-    Navigator.pushReplacementNamed(context, '/', arguments: {'task': task});
-  }
-
+class _TaskDetailsState extends State<TaskDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Screen(
-      newTaskHandler: handleNewTask,
       title: 'Active Task',
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,

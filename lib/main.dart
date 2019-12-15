@@ -5,12 +5,19 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project_tracker/models/TaskCollection.dart';
+import 'package:provider/provider.dart';
 
-import './screens/task_list_screen.dart';
-import './screens/task_screen.dart';
+import './screens/task_details_screen.dart';
+import './screens/tasks_screen.dart';
 import './themes/android_theme.dart';
 
-void main() => runApp(ProjectLogger());
+void main() => runApp(
+      ChangeNotifierProvider(
+        create: (context) => TaskCollection(),
+        child: ProjectLogger(),
+      ),
+    );
 
 /// This Widget is the main application widget.
 class ProjectLogger extends StatelessWidget {
@@ -23,8 +30,8 @@ class ProjectLogger extends StatelessWidget {
       theme: projectTheme(),
       initialRoute: '/',
       routes: {
-        '/': (context) => TaskListScreen(context),
-        '/task': (context) => TaskScreen(context),
+        '/': (context) => TasksScreen(),
+        '/task': (context) => TaskDetailsScreen(context),
       },
     );
   }

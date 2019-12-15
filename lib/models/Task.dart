@@ -1,15 +1,15 @@
-import 'package:flutter/foundation.dart' show required;
+import 'package:flutter/foundation.dart' show required, ChangeNotifier;
 
 import '../services/TimerService.dart';
 
-/// A data representation of time spent on a single task, spread throughout some number of "[_Sprint]s" (ie. sessions)
-class Task {
+/// A data representation of time spent on a single task, spread throughout some number of "[Sprint]s" (ie. sessions)
+class Task extends ChangeNotifier {
   String title;
   String description;
   DateTime createdAt;
   DateTime modifiedAt;
   TimerService timerService;
-  List<_Sprint> sprints;
+  List<Sprint> sprints;
 
   Task({@required title, @required description}) {
     this.title = title;
@@ -18,16 +18,24 @@ class Task {
     this.modifiedAt = DateTime.now();
     this.sprints = [];
     this.timerService = new TimerService();
+    this.timerService.addListener(this.onUpdateTimer);
   }
 
-  _Sprint get getLastSprint => sprints.length > 0 ? sprints[sprints.length - 1] : null;
+  Sprint get getLastSprint => sprints.length > 0 ? sprints[sprints.length - 1] : null;
+
   Duration get getLastSprintDuration => getLastSprint?._elapsed;
+
   Duration get getPreviousSprintDuration => sprints[sprints.length - 2]?._elapsed;
+
   int get numSprints => sprints?.length;
+
   bool get isRunning => timerService?.isRunning;
+
   Duration get getCurrentDuration => timerService?.currentDuration;
+
   Task get getTask => this;
-  void addNewSprint(_Sprint sprint) => sprints.add(sprint);
+
+  void addNewSprint(Sprint sprint) => sprints.add(sprint);
 
   void start() {
     if (isRunning) {
@@ -37,8 +45,8 @@ class Task {
     }
 
     print('Starting new timer for task $title');
-//    this.sprints.add(new _Sprint())
     timerService.start();
+    notifyListeners();
   }
 
   void stop() {
@@ -52,54 +60,59 @@ class Task {
     DateTime start = DateTime.now().subtract(elapsed);
     DateTime stop = DateTime.now();
     print('Adding new Sprint ->\nStart: $start\nStop: $stop\nElapsed: $elapsed');
-    sprints?.add(new _Sprint(start, stop));
-    addNewSprint(new _Sprint(start, stop));
+    sprints?.add(new Sprint(start, stop));
+    addNewSprint(new Sprint(start, stop));
     print('Current Sprints: $sprints');
 
 //    print('Stopping Timer at $getLastSprintDuration');
 
     timerService?.stop();
+    notifyListeners();
   }
 
   // Reset the clock and start a new Sprint
   void lap() {
     Duration elapsed = getCurrentDuration;
-    if (!isRunning) {
-      timerService.reset();
+    bool wasRunning = isRunning;
 
+    if (elapsed.inSeconds < 1) {
+      print('Less than 1 second elapsed. Resetting...');
+      timerService.reset();
       return;
     }
 
     DateTime start = DateTime.now().subtract(elapsed);
     DateTime stop = DateTime.now();
     print('Adding new Sprint ->\nStart: $start\nStop: $stop\nElapsed: $elapsed');
-    addNewSprint(new _Sprint(start, stop));
+    addNewSprint(new Sprint(start, stop));
     print('Current Sprints: $sprints');
     timerService.reset();
-    timerService.start();
+    if (wasRunning) timerService.start();
+    notifyListeners();
   }
 
-  void reset() => timerService.reset();
+  void reset() {
+    timerService.reset();
+    notifyListeners();
+  }
 
-  void subscribe(onUpdateTimer) => timerService.addListener(onUpdateTimer);
+  void onUpdateTimer() => notifyListeners();
 
-  void unsubscribe(onUpdateTimer) => timerService.removeListener(onUpdateTimer);
-
-  String toString() =>
-      'TASK: { title: $title, description: $description, numSprints: $numSprints, lastTime: $getLastSprintDuration, createdAt: $createdAt }';
+  String toString() => 'TASK: { title: $title, description: $description, numSprints: $numSprints, lastTime: $getLastSprintDuration, createdAt: $createdAt }';
 }
 
 /// A single [Task] session, represented by when the [Task] was started([_startTime]), stopped([_stopTime]), and the total [elapsed] time
-class _Sprint {
+class Sprint {
   DateTime _startTime;
   DateTime _stopTime;
   Duration _elapsed;
+
   Duration get elapsed => _elapsed ?? _stopTime.difference(_startTime);
 
-  _Sprint(this._startTime, this._stopTime) : _elapsed = _stopTime.difference(_startTime);
+  Sprint(this._startTime, this._stopTime) : _elapsed = _stopTime.difference(_startTime);
 }
 
-/// A representation of what will be a tabular display of Start, Stop, and Duration values of all [_Sprint] in [Task.sprints]
+/// A representation of what will be a tabular display of Start, Stop, and Duration values of all [Sprint] in [Task.sprints]
 class TaskHistory {
   List<Map> history;
 

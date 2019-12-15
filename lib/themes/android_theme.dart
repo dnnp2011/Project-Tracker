@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 ThemeData projectTheme() => ThemeData(
       primarySwatch: Colors.purple,
@@ -10,31 +11,45 @@ ThemeData projectTheme() => ThemeData(
 //          color: Colors.white,
 //        ),
         textTheme: TextTheme(
-          title: TextStyle(
-            fontSize: 24,
-            color: Colors.white,
-            fontFamily: 'LibreFranklin',
-            fontWeight: FontWeight.w700,
+          title: GoogleFonts.libreFranklin(
+            textStyle: TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.w700),
           ),
-          display1:
-              TextStyle(color: Colors.purple, fontFamily: 'LibreFranklin', fontSize: 96, fontWeight: FontWeight.w300, letterSpacing: -1.5),
-          display2:
-              TextStyle(color: Colors.purple, fontFamily: 'LibreFranklin', fontSize: 60, fontWeight: FontWeight.w300, letterSpacing: -0.5),
-          display3:
-              TextStyle(color: Colors.purple, fontFamily: 'LibreFranklin', fontSize: 48, fontWeight: FontWeight.w500, letterSpacing: 0),
-          display4:
-              TextStyle(color: Colors.purple, fontFamily: 'LibreFranklin', fontSize: 34, fontWeight: FontWeight.w500, letterSpacing: 0.25),
-          headline: TextStyle(color: Colors.purple, fontFamily: 'JosefinSans', fontSize: 22, fontWeight: FontWeight.w500, letterSpacing: 0),
-          body1: TextStyle(color: Colors.white, fontFamily: 'JosefinSans', fontSize: 16, fontWeight: FontWeight.w500, letterSpacing: 0.5),
-          body2: TextStyle(color: Colors.white, fontFamily: 'JosefinSans', fontSize: 14, fontWeight: FontWeight.w500, letterSpacing: 0.25),
-          caption: TextStyle(color: Colors.white, fontFamily: 'JosefinSans', fontSize: 12, fontWeight: FontWeight.w500, letterSpacing: 0.4),
-          overline:
-              TextStyle(color: Colors.purple, fontFamily: 'LibreFranklin', fontSize: 10, fontWeight: FontWeight.w500, letterSpacing: 1.5),
-          subtitle:
-              TextStyle(color: Colors.black38, fontFamily: 'JosefinSans', fontSize: 20, fontWeight: FontWeight.w700, letterSpacing: 0.2),
-          subhead:
-              TextStyle(color: Colors.purple, fontFamily: 'JosefinSans', fontSize: 18, fontWeight: FontWeight.w600, letterSpacing: 0.1),
-          button: TextStyle(color: Colors.white, fontFamily: 'JosefinSans', fontSize: 16, fontWeight: FontWeight.w600, letterSpacing: 1.25),
+          display1: GoogleFonts.libreFranklin(
+            textStyle: TextStyle(color: Colors.purple, fontSize: 96, fontWeight: FontWeight.w300, letterSpacing: -1.5),
+          ),
+          display2: GoogleFonts.libreFranklin(
+            textStyle: TextStyle(color: Colors.purple, fontSize: 60, fontWeight: FontWeight.w300, letterSpacing: -0.5),
+          ),
+          display3: GoogleFonts.libreFranklin(
+            textStyle: TextStyle(color: Colors.purple, fontSize: 48, fontWeight: FontWeight.w500, letterSpacing: 0),
+          ),
+          display4: GoogleFonts.libreFranklin(
+            textStyle: TextStyle(color: Colors.purple, fontSize: 34, fontWeight: FontWeight.w500, letterSpacing: 0.25),
+          ),
+          headline: GoogleFonts.josefinSans(
+            textStyle: TextStyle(color: Colors.purple, fontSize: 22, fontWeight: FontWeight.w500, letterSpacing: 0),
+          ),
+          body1: GoogleFonts.josefinSans(
+            textStyle: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500, letterSpacing: 0.5),
+          ),
+          body2: GoogleFonts.josefinSans(
+            textStyle: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500, letterSpacing: 0.25),
+          ),
+          caption: GoogleFonts.josefinSans(
+            textStyle: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500, letterSpacing: 0.4),
+          ),
+          overline: GoogleFonts.libreFranklin(
+            textStyle: TextStyle(color: Colors.purple, fontSize: 10, fontWeight: FontWeight.w500, letterSpacing: 1.5),
+          ),
+          subtitle: GoogleFonts.josefinSans(
+            textStyle: TextStyle(color: Colors.black38, fontSize: 20, fontWeight: FontWeight.w700, letterSpacing: 0.2),
+          ),
+          subhead: GoogleFonts.josefinSans(
+            textStyle: TextStyle(color: Colors.purple, fontSize: 18, fontWeight: FontWeight.w600, letterSpacing: 0.1),
+          ),
+          button: GoogleFonts.josefinSans(
+            textStyle: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600, letterSpacing: 1.25),
+          ),
         ),
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(

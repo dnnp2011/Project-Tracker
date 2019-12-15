@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../models/Task.dart';
@@ -35,8 +34,7 @@ class TaskHistoryScreen extends StatelessWidget {
                       height: 200,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image:
-                              NetworkImage('https://www.pinclipart.com/picdir/middle/293-2933849_graph-clipart-bar-graph-png-download.png'),
+                          image: NetworkImage('https://www.pinclipart.com/picdir/middle/293-2933849_graph-clipart-bar-graph-png-download.png'),
                           fit: BoxFit.contain,
                         ),
                         shape: BoxShape.circle,

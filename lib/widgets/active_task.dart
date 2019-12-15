@@ -22,7 +22,7 @@ class _ActiveTaskState extends State<ActiveTask> {
   void initState() {
     super.initState();
 
-    widget.task.subscribe(handleUpdateTimer);
+    widget.task.addListener(handleUpdateTimer);
   }
 
   void handleUpdateTimer() {
@@ -37,7 +37,7 @@ class _ActiveTaskState extends State<ActiveTask> {
 
     print('ActiveTask.dispose()');
     widget.task.stop();
-    widget.task.unsubscribe(handleUpdateTimer);
+    widget.task.removeListener(handleUpdateTimer);
   }
 
   /// Initiate the Periodic Timer
