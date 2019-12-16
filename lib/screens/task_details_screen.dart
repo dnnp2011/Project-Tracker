@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:project_tracker/widgets/fab.dart';
+import 'package:project_tracker/widgets/new_task_form.dart';
 
 import '../models/Task.dart' show Task, TaskInsight;
-import '../screens/task_history_screen.dart';
+import '../screens/task_insights_view.dart';
 import '../themes/android_theme.dart';
-import '../widgets/active_task.dart' show ActiveTask;
-import '../widgets/screen.dart';
+import 'active_task_view.dart' show ActiveTask;
 
 class TaskDetailsScreen extends StatefulWidget {
   Task task;
   Widget currentWidget;
   Widget timerWidget;
   Widget insightsWidget;
+  GlobalKey<AnimatedListState> animatedListKey;
 
-  TaskDetailsScreen(BuildContext context) {
+  TaskDetailsScreen(BuildContext context, GlobalKey<AnimatedListState> animatedListKey) {
     var args = ModalRoute.of(context).settings.arguments as Map;
     assert(args['task'] != null, 'TaskDetailsScreen constructor - Route Arguments.task is null!');
     this.task = args['task'] as Task;
+    this.animatedListKey = animatedListKey;
     timerWidget = ActiveTask(task);
     insightsWidget = TaskHistoryScreen(task);
     currentWidget = timerWidget;
@@ -28,10 +31,26 @@ class TaskDetailsScreen extends StatefulWidget {
 }
 
 class _TaskDetailsState extends State<TaskDetailsScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  void openNewTaskForm(BuildContext context) => showModalBottomSheet(
+        context: context,
+        builder: (BuildContext _) => NewTaskForm(
+          animatedListKey: widget.animatedListKey,
+        ),
+        shape: RoundedRectangleBorder(),
+      );
+
   @override
   Widget build(BuildContext context) {
-    return Screen(
-      title: 'Active Task',
+    return Scaffold(
+      key: _scaffoldKey,
+      appBar: AppBar(
+        title: Text("Task Details"),
+      ),
+      floatingActionButton: Builder(
+        builder: (context) => Fab(context, this.openNewTaskForm),
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -40,7 +59,7 @@ class _TaskDetailsState extends State<TaskDetailsScreen> {
             height: 10,
           ),
           Expanded(
-            flex: 1,
+            flex: 2,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -99,11 +118,8 @@ class _TaskDetailsState extends State<TaskDetailsScreen> {
             ),
           ),
           Expanded(
-            flex: 18,
-            child: Container(
-              height: double.infinity,
-              child: widget.currentWidget,
-            ),
+            flex: 32,
+            child: widget.currentWidget,
           ),
         ],
       ),

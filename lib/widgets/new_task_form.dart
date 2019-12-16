@@ -1,16 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_tracker/models/TaskCollection.dart';
+import 'package:project_tracker/themes/android_theme.dart';
 import 'package:provider/provider.dart';
 
 import '../models/Task.dart';
 import '../widgets/styled_form_field.dart';
 
 class NewTaskForm extends StatefulWidget {
+  GlobalKey<AnimatedListState> animatedListKey;
   bool _showTitleError = false;
   bool _showDescriptionError = false;
 
-  NewTaskForm();
+  NewTaskForm({this.animatedListKey});
 
   @override
   _NewTaskFormState createState() => _NewTaskFormState();
@@ -89,7 +91,7 @@ class _NewTaskFormState extends State<NewTaskForm> {
                           nextFocusNode: descriptionFocusNode,
                           textInputType: TextInputType.text,
                           showError: widget._showTitleError,
-                          fixedHeight: 70,
+                          fixedHeight: 68,
                         ),
                       ],
                     ),
@@ -111,7 +113,7 @@ class _NewTaskFormState extends State<NewTaskForm> {
                           validator: validateInput,
                           textInputType: TextInputType.text,
                           showError: widget._showDescriptionError,
-                          fixedHeight: 70,
+                          fixedHeight: 68,
                           focusNode: descriptionFocusNode,
                         ),
                       ],
@@ -124,6 +126,7 @@ class _NewTaskFormState extends State<NewTaskForm> {
                       alignment: Alignment.bottomRight,
                       child: OutlineButton(
                         color: Colors.purple,
+                        borderSide: BorderSide(color: ThemeColors.secondaryText),
                         onPressed: () {
                           setState(() {
                             widget._showTitleError = titleController.text.isEmpty;
@@ -133,13 +136,15 @@ class _NewTaskFormState extends State<NewTaskForm> {
                           if (widget._showTitleError || widget._showDescriptionError) return;
 
                           final Task newTask = new Task(title: titleController.text, description: descriptionController.text);
+                          assert(widget.animatedListKey is GlobalKey<AnimatedListState>);
+                          widget.animatedListKey.currentState.insertItem(taskCollection.totalTasks);
                           taskCollection.addTask(newTask);
-                          print(newTask.toString());
+                          print("Inserting ${newTask.toString()}");
                           Navigator.pop(context);
                         },
                         child: Text(
                           'Create',
-                          style: Theme.of(context).textTheme.button.copyWith(fontSize: 16),
+                          style: Theme.of(context).textTheme.button.copyWith(fontSize: 16, color: ThemeColors.secondaryText),
                         ),
                       ),
                     ),

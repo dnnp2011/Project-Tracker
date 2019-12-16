@@ -15,7 +15,7 @@ Widget styledFormField(
     child: TextFormField(
       decoration: InputDecoration(
         errorText: showError ? errorMsg ?? 'Value Can\'t Be Empty' : ' ',
-        errorStyle: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.red),
+        errorStyle: Theme.of(context).textTheme.caption.copyWith(color: Colors.red),
         border: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black, width: 1)),
         focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.black, width: 1)),
         errorBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.purple, width: 1)),
@@ -27,8 +27,7 @@ Widget styledFormField(
       keyboardType: textInputType,
       textInputAction: nextFocusNode != null ? TextInputAction.next : TextInputAction.done,
       validator: validator,
-      onFieldSubmitted: (value) =>
-          nextFocusNode != null ? FocusScope.of(context).requestFocus(nextFocusNode) : print('nextFocusNode is null - Value: $value'),
+      onFieldSubmitted: (value) => nextFocusNode != null ? FocusScope.of(context).requestFocus(nextFocusNode) : print('nextFocusNode is null - Value: $value'),
     ),
   );
 }

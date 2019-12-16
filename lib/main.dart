@@ -12,6 +12,8 @@ import './screens/task_details_screen.dart';
 import './screens/tasks_screen.dart';
 import './themes/android_theme.dart';
 
+final GlobalKey<AnimatedListState> _animatedListKey = GlobalKey<AnimatedListState>();
+
 void main() => runApp(
       ChangeNotifierProvider(
         create: (context) => TaskCollection(),
@@ -30,8 +32,8 @@ class ProjectLogger extends StatelessWidget {
       theme: projectTheme(),
       initialRoute: '/',
       routes: {
-        '/': (context) => TasksScreen(),
-        '/task': (context) => TaskDetailsScreen(context),
+        '/': (context) => TasksScreen(_animatedListKey),
+        '/task': (context) => TaskDetailsScreen(context, _animatedListKey),
       },
     );
   }
