@@ -8,10 +8,12 @@ import '../themes/android_theme.dart';
 
 class ActiveTask extends StatefulWidget {
   Task task;
+
   bool get isTimerRunning => task.timerService.isRunning;
   Duration currentTime;
 
   ActiveTask(this.task) : currentTime = task.getLastSprintDuration ?? Duration(hours: 0, minutes: 0, seconds: 0);
+
   @override
   _ActiveTaskState createState() => _ActiveTaskState();
 }
@@ -59,111 +61,116 @@ class _ActiveTaskState extends State<ActiveTask> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: double.infinity,
-      width: double.infinity,
-      margin: EdgeInsets.all(20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Expanded(flex: 1, child: TaskSummary(context, widget.task)),
-          SizedBox(
-            height: 25,
-          ),
-          Expanded(
-            flex: 6,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Container(
-                  child: Text(
-                    'Task Timer:',
-                    style: Theme.of(context).primaryTextTheme.subtitle,
+    return LimitedBox(
+      maxHeight: 300,
+      maxWidth: 300,
+      child: Container(
+        height: double.infinity,
+        width: double.infinity,
+        margin: EdgeInsets.all(20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Expanded(flex: 1, child: TaskSummary(context, widget.task)),
+            SizedBox(
+              height: 25,
+            ),
+            Expanded(
+              flex: 6,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Container(
+                    child: Text(
+                      'Task Timer:',
+                      style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.black38),
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 3,
-                ),
-                Expanded(
-                  child: Card(
-                    elevation: 2,
-                    child: Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Expanded(
-                            flex: 4,
-                            child: Icon(
-                              Icons.access_time,
-                              color: ThemeColors.dark,
-                              size: 200,
-                              semanticLabel: 'Clock Icon',
+                  SizedBox(
+                    height: 3,
+                  ),
+                  Expanded(
+                    flex: 10,
+                    child: Card(
+                      elevation: 2,
+                      child: Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Expanded(
+                              flex: 4,
+                              child: Icon(
+                                Icons.access_time,
+                                color: ThemeColors.dark,
+                                size: 200,
+                                semanticLabel: 'Clock Icon',
+                              ),
                             ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Text(
-                              widget.currentTime.toString().substring(0, 10) ?? '00:00:00',
-                              style: Theme.of(context).textTheme.display3,
+                            Expanded(
+                              flex: 1,
+                              child: Text(
+                                widget.currentTime.toString().substring(0, 10) ?? '00:00:00',
+                                style: Theme.of(context).textTheme.display3,
+                              ),
                             ),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Expanded(
-                                  child: Container(
-                                    width: double.infinity,
-                                    height: double.infinity,
-                                    margin: EdgeInsets.all(13),
-                                    child: !widget.isTimerRunning
-                                        ? RaisedButton(
-                                            child: Text(
-                                              'Start',
-                                              style: Theme.of(context).textTheme.button,
+                            Expanded(
+                              flex: 1,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Container(
+                                      width: double.infinity,
+                                      height: double.infinity,
+                                      margin: EdgeInsets.all(13),
+                                      child: !widget.isTimerRunning
+                                          ? RaisedButton(
+                                              child: Text(
+                                                'Start',
+                                                style: Theme.of(context).textTheme.button,
+                                              ),
+                                              onPressed: start,
+                                            )
+                                          : RaisedButton(
+                                              child: Text(
+                                                'Stop',
+                                                style: Theme.of(context).textTheme.button,
+                                              ),
+                                              onPressed: stop,
                                             ),
-                                            onPressed: start,
-                                          )
-                                        : RaisedButton(
-                                            child: Text(
-                                              'Stop',
-                                              style: Theme.of(context).textTheme.button,
-                                            ),
-                                            onPressed: stop,
-                                          ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    width: double.infinity,
-                                    height: double.infinity,
-                                    margin: EdgeInsets.all(13),
-                                    child: RaisedButton(
-                                      child: Text(
-                                        'Lap',
-                                        style: Theme.of(context).textTheme.button,
-                                      ),
-                                      onPressed: lap,
                                     ),
                                   ),
-                                )
-                              ],
+                                  Expanded(
+                                    child: Container(
+                                      width: double.infinity,
+                                      height: double.infinity,
+                                      margin: EdgeInsets.all(13),
+                                      child: RaisedButton(
+                                        child: Text(
+                                          'Lap',
+                                          style: Theme.of(context).textTheme.button,
+                                        ),
+                                        onPressed: lap,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -44,33 +44,32 @@ final TextTheme globalTextTheme = TextTheme(
 );
 
 ThemeData projectTheme() => ThemeData(
-      primarySwatch: Colors.purple,
-      accentColor: Colors.purpleAccent,
-      textTheme: globalTextTheme,
-      appBarTheme: AppBarTheme(
-        elevation: 6,
-        textTheme: globalTextTheme,
-      ),
-      floatingActionButtonTheme: FloatingActionButtonThemeData(
-        elevation: 6,
-      ),
-      buttonTheme: ButtonThemeData(
-        buttonColor: Colors.purple,
-        textTheme: ButtonTextTheme.normal,
-        splashColor: Colors.purpleAccent,
-      ),
-      cardTheme: CardTheme(
-        color: Colors.white70,
-        elevation: 6,
-        margin: EdgeInsets.all(10),
-      ),
-      bottomSheetTheme: BottomSheetThemeData(
-        elevation: 10,
-        backgroundColor: Colors.white,
-        shape: RoundedRectangleBorder(),
-        modalElevation: 10,
-        modalBackgroundColor: Colors.white,
-      ),
+      primarySwatch: Colors.yellow,
+      //      accentColor: Colors.purpleAccent,
+      //      textTheme: globalTextTheme,
+      //      appBarTheme: AppBarTheme(
+      //        elevation: 6,
+      //        textTheme: globalTextTheme,
+      //      ),
+      //      floatingActionButtonTheme: FloatingActionButtonThemeData(
+      //        elevation: 6,
+      //      ),
+      //      buttonTheme: ButtonThemeData(
+      //        buttonColor: Colors.purple,
+      //        textTheme: ButtonTextTheme.normal,
+      //        splashColor: Colors.purpleAccent,
+      //      ),
+      //      cardTheme: CardTheme(
+      //        color: Colors.white70,
+      //        elevation: 2,
+      //      ),
+      //      bottomSheetTheme: BottomSheetThemeData(
+      //        elevation: 10,
+      //        backgroundColor: Colors.white,
+      //        shape: RoundedRectangleBorder(),
+      //        modalElevation: 10,
+      //        modalBackgroundColor: Colors.white,
+      //      ),
     );
 
 class ThemeColors {

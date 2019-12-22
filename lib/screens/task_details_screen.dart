@@ -119,7 +119,11 @@ class _TaskDetailsState extends State<TaskDetailsScreen> {
           ),
           Expanded(
             flex: 32,
-            child: widget.currentWidget,
+            child: LimitedBox(
+              maxHeight: 500,
+              maxWidth: 400,
+              child: widget.currentWidget,
+            ),
           ),
         ],
       ),

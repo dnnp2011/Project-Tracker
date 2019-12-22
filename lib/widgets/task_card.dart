@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_tracker/models/TaskCollection.dart';
 import 'package:project_tracker/themes/android_theme.dart';
@@ -52,34 +53,27 @@ class TaskCard extends StatelessWidget {
           );
         },
         background: Container(color: ThemeColors.error),
-        child: GestureDetector(
-          onTap: () => handleOnTap(context),
-          child: Card(
-            color: Theme.of(context).cardTheme.color,
-            margin: EdgeInsets.all(7.0),
-            elevation: 2,
-            child: Padding(
-              padding: const EdgeInsets.all(3.0),
-              child: Container(
-                height: 50,
-                width: double.infinity,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Text(
-                      task.title,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.headline,
-                    ),
-                    Text(
-                      task.description,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.headline,
-                    ),
-                  ],
-                ),
+        child: Card(
+          margin: EdgeInsets.symmetric(vertical: 5, horizontal: 12),
+          child: ListTile(
+            key: ValueKey(this.task),
+            onTap: () => this.handleOnTap(context),
+            leading: Container(
+              height: double.infinity,
+              child: Icon(
+                Icons.assignment,
+                size: 35,
               ),
+            ),
+            title: Text(
+              this.task.title,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.title.copyWith(color: Colors.black54),
+            ),
+            subtitle: Text(
+              this.task.description,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.subtitle,
             ),
           ),
         ),

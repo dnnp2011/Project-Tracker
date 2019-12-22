@@ -31,6 +31,7 @@ class ProjectLogger extends StatelessWidget {
       title: _title,
       theme: projectTheme(),
       initialRoute: '/',
+      darkTheme: ThemeData.dark(),
       routes: {
         '/': (context) => TasksScreen(_animatedListKey),
         '/task': (context) => TaskDetailsScreen(context, _animatedListKey),
