@@ -6,11 +6,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_tracker/models/TaskCollection.dart';
+import 'package:project_tracker/themes/android_theme.dart';
 import 'package:provider/provider.dart';
 
 import './screens/task_details_screen.dart';
 import './screens/tasks_screen.dart';
-import './themes/android_theme.dart';
 
 final GlobalKey<AnimatedListState> _animatedListKey = GlobalKey<AnimatedListState>();
 
@@ -29,9 +29,8 @@ class ProjectLogger extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: _title,
-      theme: projectTheme(),
+      theme: ProjectTheme.dark(),
       initialRoute: '/',
-      darkTheme: ThemeData.dark(),
       routes: {
         '/': (context) => TasksScreen(_animatedListKey),
         '/task': (context) => TaskDetailsScreen(context, _animatedListKey),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../models/Task.dart';
-import '../themes/android_theme.dart';
 
 /// TODO: Rebuild the TimerService from scratch given what I now know of the requirements in this Widget
 /// TODO: Start small by creating a local Periodic to drive to Timer, then move to more complex management schemes
@@ -85,7 +84,6 @@ class _ActiveTaskState extends State<ActiveTask> {
                   Container(
                     child: Text(
                       'Task Timer:',
-                      style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.black38),
                     ),
                   ),
                   SizedBox(
@@ -104,7 +102,6 @@ class _ActiveTaskState extends State<ActiveTask> {
                               flex: 4,
                               child: Icon(
                                 Icons.access_time,
-                                color: ThemeColors.dark,
                                 size: 200,
                                 semanticLabel: 'Clock Icon',
                               ),
@@ -131,14 +128,12 @@ class _ActiveTaskState extends State<ActiveTask> {
                                           ? RaisedButton(
                                               child: Text(
                                                 'Start',
-                                                style: Theme.of(context).textTheme.button,
                                               ),
                                               onPressed: start,
                                             )
                                           : RaisedButton(
                                               child: Text(
                                                 'Stop',
-                                                style: Theme.of(context).textTheme.button,
                                               ),
                                               onPressed: stop,
                                             ),
@@ -152,7 +147,6 @@ class _ActiveTaskState extends State<ActiveTask> {
                                       child: RaisedButton(
                                         child: Text(
                                           'Lap',
-                                          style: Theme.of(context).textTheme.button,
                                         ),
                                         onPressed: lap,
                                       ),
@@ -185,7 +179,6 @@ Widget TaskSummary(BuildContext context, Task task) {
         Container(
           child: Text(
             'Your Task:',
-            style: Theme.of(context).primaryTextTheme.subtitle,
           ),
         ),
         SizedBox(

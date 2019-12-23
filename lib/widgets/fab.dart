@@ -10,7 +10,6 @@ Widget Fab(BuildContext context, Function openNewTaskForm) => Container(
           onPressed: () => openNewTaskForm(context),
           child: Icon(
             Icons.add,
-            color: Colors.white,
             size: 48,
           ),
           backgroundColor: Theme.of(context).floatingActionButtonTheme.backgroundColor,

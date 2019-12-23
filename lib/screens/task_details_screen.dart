@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:project_tracker/themes/android_theme.dart';
 import 'package:project_tracker/widgets/fab.dart';
 import 'package:project_tracker/widgets/new_task_form.dart';
 
 import '../models/Task.dart' show Task, TaskInsight;
 import '../screens/task_insights_view.dart';
-import '../themes/android_theme.dart';
 import 'active_task_view.dart' show ActiveTask;
 
 class TaskDetailsScreen extends StatefulWidget {
   Task task;
-  Widget currentWidget;
   Widget timerWidget;
   Widget insightsWidget;
   GlobalKey<AnimatedListState> animatedListKey;
+  ActivePage _activePage = ActivePage.timer;
 
   TaskDetailsScreen(BuildContext context, GlobalKey<AnimatedListState> animatedListKey) {
     var args = ModalRoute.of(context).settings.arguments as Map;
@@ -21,9 +21,6 @@ class TaskDetailsScreen extends StatefulWidget {
     this.animatedListKey = animatedListKey;
     timerWidget = ActiveTask(task);
     insightsWidget = TaskHistoryScreen(task);
-    currentWidget = timerWidget;
-
-    print(task.toString());
   }
 
   @override
@@ -32,6 +29,7 @@ class TaskDetailsScreen extends StatefulWidget {
 
 class _TaskDetailsState extends State<TaskDetailsScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final PageController _pageController = PageController(initialPage: 0);
 
   void openNewTaskForm(BuildContext context) => showModalBottomSheet(
         context: context,
@@ -42,8 +40,17 @@ class _TaskDetailsState extends State<TaskDetailsScreen> {
       );
 
   @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (_pageController != null && _pageController.hasClients != null) print('Page: ${_pageController?.page}');
+
     return Scaffold(
+      backgroundColor: ThemeColors.scaffoldBackground,
       key: _scaffoldKey,
       appBar: AppBar(
         title: Text("Task Details"),
@@ -65,52 +72,56 @@ class _TaskDetailsState extends State<TaskDetailsScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Expanded(
-                  child: FlatButton(
-                    onPressed: () => setState(() {
-                      widget.currentWidget = widget.timerWidget;
-                    }),
-                    color: Colors.transparent,
-                    splashColor: ThemeColors.primaryLight,
-                    child: Column(
-                      children: <Widget>[
-                        Text(
-                          'Timer',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.subtitle,
-                        ),
-                        Container(
-                          width: 75,
-                          child: Divider(
-                            thickness: 1,
-                            color: Theme.of(context).textTheme.subtitle.color,
+                  child: LimitedBox(
+                    maxHeight: 50,
+                    maxWidth: MediaQuery.of(context).size.width / 2,
+                    child: FlatButton(
+                      onPressed: () => setState(() {
+                        widget._activePage = ActivePage.timer;
+                      }),
+                      color: Colors.transparent,
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            'Timer',
+                            textAlign: TextAlign.center,
                           ),
-                        )
-                      ],
+                          Container(
+                            width: 75,
+                            height: 3,
+                            child: Divider(
+                              thickness: _pageController?.page == 0 ? 3 : 1,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
                 Expanded(
-                  child: FlatButton(
-                    onPressed: () => setState(() {
-                      widget.currentWidget = widget.insightsWidget;
-                    }),
-                    color: Colors.transparent,
-                    splashColor: ThemeColors.primaryLight,
-                    child: Column(
-                      children: <Widget>[
-                        Text(
-                          'Insights',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.subtitle,
-                        ),
-                        Container(
-                          width: 75,
-                          child: Divider(
-                            thickness: 1,
-                            color: Theme.of(context).textTheme.subtitle.color,
+                  child: LimitedBox(
+                    maxHeight: 50,
+                    maxWidth: MediaQuery.of(context).size.width / 2,
+                    child: FlatButton(
+                      onPressed: () => setState(() {
+                        widget._activePage = ActivePage.insights;
+                      }),
+                      color: Colors.transparent,
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            'Insights',
+                            textAlign: TextAlign.center,
                           ),
-                        )
-                      ],
+                          Container(
+                            width: 75,
+                            height: 3,
+                            child: Divider(
+                              thickness: _pageController?.page == 1 ? 3 : 1,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -120,13 +131,25 @@ class _TaskDetailsState extends State<TaskDetailsScreen> {
           Expanded(
             flex: 32,
             child: LimitedBox(
-              maxHeight: 500,
-              maxWidth: 400,
-              child: widget.currentWidget,
-            ),
+                maxHeight: 500,
+                maxWidth: 400,
+                child: PageView.builder(
+                  key: UniqueKey(),
+                  itemCount: 2,
+                  scrollDirection: Axis.horizontal,
+                  controller: _pageController,
+                  itemBuilder: (BuildContext context, int page) {
+                    return page == 0 ? widget.timerWidget : widget.insightsWidget;
+                  },
+                )),
           ),
         ],
       ),
     );
   }
+}
+
+enum ActivePage {
+  timer,
+  insights,
 }

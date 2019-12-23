@@ -19,27 +19,22 @@ class TaskHistoryScreen extends StatelessWidget {
           Expanded(
             flex: 1,
             child: Padding(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),Th
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
                     'Statistics:',
-                    style: Theme.of(context).textTheme.subtitle,
                   ),
                   SizedBox(height: 6),
                   Card(
-                    color: Colors.white70,
                     child: Container(
-                      height: 200,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage('https://www.pinclipart.com/picdir/middle/293-2933849_graph-clipart-bar-graph-png-download.png'),
-                          fit: BoxFit.contain,
-                        ),
-                        shape: BoxShape.circle,
+                      height: double.infinity,
+                      child: FittedBox(
+                        fit: BoxFit.fill,
+                        child: Placeholder(),
                       ),
-                    ),
+                  ),
                   ),
                 ],
               ),
@@ -54,19 +49,16 @@ class TaskHistoryScreen extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     'History:',
-                    style: Theme.of(context).textTheme.subtitle,
                   ),
                   SizedBox(height: 6),
                   Expanded(
                     child: Card(
-                      color: Colors.white70,
                       child: ListView.builder(
                           itemCount: 10,
                           itemBuilder: (BuildContext ctx, int index) {
                             return Container(
                               height: 20,
                               width: double.infinity,
-                              color: Colors.black26.withOpacity(0.3),
                               padding: EdgeInsets.all(5),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,

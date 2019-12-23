@@ -24,8 +24,11 @@ class TasksScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('scaffoldBG: ${Theme.of(context).scaffoldBackgroundColor}');
+
     return Consumer<TaskCollection>(
       builder: (context, taskCollection, child) => Scaffold(
+        backgroundColor: ThemeColors.scaffoldBackground,
         key: _scaffoldKey,
         appBar: AppBar(
           title: Text("Project Logger"),
@@ -35,7 +38,6 @@ class TasksScreen extends StatelessWidget {
         ),
         body: Container(
           width: double.infinity,
-          color: Colors.white,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -51,13 +53,11 @@ class TasksScreen extends StatelessWidget {
                     ),
                     Text(
                       'Your Tasks',
-                      style: Theme.of(context).textTheme.subtitle,
                     ),
                     Container(
                       width: 100,
                       child: Divider(
                         height: 3,
-                        color: Theme.of(context).textTheme.subtitle.color,
                       ),
                     ),
                   ],

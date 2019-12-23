@@ -52,7 +52,7 @@ class TaskCard extends StatelessWidget {
             ),
           );
         },
-        background: Container(color: ThemeColors.error),
+        background: Container(color: ThemeColors.alert),
         child: Card(
           margin: EdgeInsets.symmetric(vertical: 5, horizontal: 12),
           child: ListTile(
@@ -68,12 +68,10 @@ class TaskCard extends StatelessWidget {
             title: Text(
               this.task.title,
               overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.title.copyWith(color: Colors.black54),
             ),
             subtitle: Text(
               this.task.description,
               overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.subtitle,
             ),
           ),
         ),

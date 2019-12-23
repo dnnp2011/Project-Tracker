@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_tracker/models/TaskCollection.dart';
-import 'package:project_tracker/themes/android_theme.dart';
 import 'package:provider/provider.dart';
 
 import '../models/Task.dart';
@@ -45,8 +44,6 @@ class _NewTaskFormState extends State<NewTaskForm> {
           child: Form(
             key: _formKey,
             child: Container(
-              height: 335,
-              width: double.infinity,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -58,7 +55,6 @@ class _NewTaskFormState extends State<NewTaskForm> {
                       children: <Widget>[
                         Text(
                           'Create New Task',
-                          style: Theme.of(context).textTheme.headline,
                           textAlign: TextAlign.center,
                         ),
                         Container(
@@ -66,7 +62,6 @@ class _NewTaskFormState extends State<NewTaskForm> {
                           width: 200,
                           child: Divider(
                             thickness: 2,
-                            color: Colors.purple,
                             height: 30,
                           ),
                         ),
@@ -80,7 +75,6 @@ class _NewTaskFormState extends State<NewTaskForm> {
                         Container(
                           child: Text(
                             'Title:',
-                            style: Theme.of(context).textTheme.subtitle,
                           ),
                           alignment: Alignment.topLeft,
                         ),
@@ -104,7 +98,6 @@ class _NewTaskFormState extends State<NewTaskForm> {
                           alignment: Alignment.topLeft,
                           child: Text(
                             'Description:',
-                            style: Theme.of(context).textTheme.subtitle,
                           ),
                         ),
                         styledFormField(
@@ -125,8 +118,6 @@ class _NewTaskFormState extends State<NewTaskForm> {
                       margin: EdgeInsets.symmetric(vertical: 10),
                       alignment: Alignment.bottomRight,
                       child: OutlineButton(
-                        color: Colors.purple,
-                        borderSide: BorderSide(color: ThemeColors.secondaryText),
                         onPressed: () {
                           setState(() {
                             widget._showTitleError = titleController.text.isEmpty;
@@ -144,7 +135,6 @@ class _NewTaskFormState extends State<NewTaskForm> {
                         },
                         child: Text(
                           'Create',
-                          style: Theme.of(context).textTheme.button.copyWith(fontSize: 16, color: ThemeColors.secondaryText),
                         ),
                       ),
                     ),
