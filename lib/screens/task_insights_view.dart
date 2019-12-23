@@ -19,7 +19,7 @@ class TaskHistoryScreen extends StatelessWidget {
           Expanded(
             flex: 1,
             child: Padding(
-              padding: const EdgeInsets.all(20),Th
+              padding: const EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -34,7 +34,7 @@ class TaskHistoryScreen extends StatelessWidget {
                         fit: BoxFit.fill,
                         child: Placeholder(),
                       ),
-                  ),
+                    ),
                   ),
                 ],
               ),
