@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart' show required, ChangeNotifier;
+import 'package:intl/intl.dart';
 
 import '../services/TimerService.dart';
 
@@ -108,6 +109,14 @@ class Sprint {
   Duration _elapsed;
 
   Duration get elapsed => _elapsed ?? _stopTime.difference(_startTime);
+  DateTime get lastModified => _stopTime;
+  String get formattedLastModified {
+    final String monthFormat = DateFormat("MMMM").format(lastModified);
+    final String dayFormat = DateFormat("d").format(lastModified);
+    final String yearFormat = DateFormat("y").format(lastModified);
+
+    return "$monthFormat $dayFormat, $yearFormat";
+  }
 
   Sprint(this._startTime, this._stopTime) : _elapsed = _stopTime.difference(_startTime);
 }

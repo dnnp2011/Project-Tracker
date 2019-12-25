@@ -21,7 +21,6 @@ void main() => runApp(
       ),
     );
 
-/// This Widget is the main application widget.
 class ProjectLogger extends StatelessWidget {
   static const String _title = 'Project Logger';
 
@@ -38,6 +37,3 @@ class ProjectLogger extends StatelessWidget {
     );
   }
 }
-
-//final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-//final SnackBar snackBar = const SnackBar(content: Text('Showing Snackbar'));

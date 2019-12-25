@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_tracker/models/TaskCollection.dart';
+import 'package:project_tracker/themes/android_theme.dart';
 import 'package:provider/provider.dart';
 
 import '../models/Task.dart';
@@ -39,6 +40,7 @@ class _NewTaskFormState extends State<NewTaskForm> {
   Widget build(BuildContext context) {
     return Consumer<TaskCollection>(
       builder: (context, taskCollection, child) => Container(
+        color: ThemeColors.dp12,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(30, 15, 30, 15),
           child: Form(
@@ -56,13 +58,12 @@ class _NewTaskFormState extends State<NewTaskForm> {
                         Text(
                           'Create New Task',
                           textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.subhead,
                         ),
                         Container(
-                          height: 30,
-                          width: 200,
+                          width: 160,
                           child: Divider(
-                            thickness: 2,
-                            height: 30,
+                            color: ThemeColors.secondaryDp16,
                           ),
                         ),
                       ],
@@ -75,6 +76,7 @@ class _NewTaskFormState extends State<NewTaskForm> {
                         Container(
                           child: Text(
                             'Title:',
+                            style: Theme.of(context).textTheme.body2,
                           ),
                           alignment: Alignment.topLeft,
                         ),
@@ -86,6 +88,7 @@ class _NewTaskFormState extends State<NewTaskForm> {
                           textInputType: TextInputType.text,
                           showError: widget._showTitleError,
                           fixedHeight: 68,
+                          errorMsg: 'Title required',
                         ),
                       ],
                     ),
@@ -98,17 +101,18 @@ class _NewTaskFormState extends State<NewTaskForm> {
                           alignment: Alignment.topLeft,
                           child: Text(
                             'Description:',
+                            style: Theme.of(context).textTheme.body2,
                           ),
                         ),
                         styledFormField(
-                          context: context,
-                          controller: descriptionController,
-                          validator: validateInput,
-                          textInputType: TextInputType.text,
-                          showError: widget._showDescriptionError,
-                          fixedHeight: 68,
-                          focusNode: descriptionFocusNode,
-                        ),
+                            context: context,
+                            controller: descriptionController,
+                            validator: validateInput,
+                            textInputType: TextInputType.text,
+                            showError: widget._showDescriptionError,
+                            fixedHeight: 68,
+                            focusNode: descriptionFocusNode,
+                            errorMsg: 'Description required'),
                       ],
                     ),
                   ),
@@ -133,8 +137,12 @@ class _NewTaskFormState extends State<NewTaskForm> {
                           print("Inserting ${newTask.toString()}");
                           Navigator.pop(context);
                         },
+                        color: ThemeColors.secondaryDp16,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
+                        borderSide: BorderSide(color: ThemeColors.secondaryDp16, width: 2),
                         child: Text(
                           'Create',
+                          style: Theme.of(context).textTheme.button,
                         ),
                       ),
                     ),

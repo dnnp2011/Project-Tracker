@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_tracker/themes/android_theme.dart';
 
 import '../models/Task.dart';
 
@@ -60,108 +61,54 @@ class _ActiveTaskState extends State<ActiveTask> {
 
   @override
   Widget build(BuildContext context) {
-    return LimitedBox(
-      maxHeight: 300,
-      maxWidth: 300,
-      child: Container(
-        height: double.infinity,
-        width: double.infinity,
-        margin: EdgeInsets.all(20),
+    return ConstrainedBox(
+      constraints: BoxConstraints.loose(MediaQuery.of(context).size),
+      child: Card(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Expanded(flex: 1, child: TaskSummary(context, widget.task)),
-            SizedBox(
-              height: 25,
+            Icon(
+              Icons.access_time,
+              size: 200,
+              color: ThemeColors.primaryLight,
             ),
-            Expanded(
-              flex: 6,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Container(
-                    child: Text(
-                      'Task Timer:',
-                    ),
-                  ),
-                  SizedBox(
-                    height: 3,
-                  ),
-                  Expanded(
-                    flex: 10,
-                    child: Card(
-                      elevation: 2,
-                      child: Container(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Expanded(
-                              flex: 4,
-                              child: Icon(
-                                Icons.access_time,
-                                size: 200,
-                                semanticLabel: 'Clock Icon',
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Text(
-                                widget.currentTime.toString().substring(0, 10) ?? '00:00:00',
-                                style: Theme.of(context).textTheme.display3,
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Container(
-                                      width: double.infinity,
-                                      height: double.infinity,
-                                      margin: EdgeInsets.all(13),
-                                      child: !widget.isTimerRunning
-                                          ? RaisedButton(
-                                              child: Text(
-                                                'Start',
-                                              ),
-                                              onPressed: start,
-                                            )
-                                          : RaisedButton(
-                                              child: Text(
-                                                'Stop',
-                                              ),
-                                              onPressed: stop,
-                                            ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      width: double.infinity,
-                                      height: double.infinity,
-                                      margin: EdgeInsets.all(13),
-                                      child: RaisedButton(
-                                        child: Text(
-                                          'Lap',
-                                        ),
-                                        onPressed: lap,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
+            Text(
+              widget.currentTime.toString().substring(0, 10) ?? '00:00:00',
+              style: Theme.of(context).textTheme.display3,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.all(13),
+                  child: !widget.isTimerRunning
+                      ? RaisedButton(
+                          child: Text(
+                            'Start',
+                            style: Theme.of(context).textTheme.subhead,
+                          ),
+                          onPressed: start,
+                        )
+                      : RaisedButton(
+                          child: Text(
+                            'Stop',
+                            style: Theme.of(context).textTheme.subhead,
+                          ),
+                          onPressed: stop,
                         ),
-                      ),
+                ),
+                Container(
+                  margin: EdgeInsets.all(13),
+                  child: RaisedButton(
+                    child: Text(
+                      'Lap',
+                      style: Theme.of(context).textTheme.subhead,
                     ),
+                    onPressed: lap,
                   ),
-                ],
-              ),
+                )
+              ],
             ),
           ],
         ),
@@ -185,12 +132,14 @@ Widget TaskSummary(BuildContext context, Task task) {
           height: 3,
           width: double.infinity,
         ),
-        Expanded(
-          child: Container(
+        Flexible(
+          fit: FlexFit.loose,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxHeight: 80),
             child: Card(
-              child: Padding(
-                padding: EdgeInsets.all(5),
-                child: Text(task.description),
+              child: ListTile(
+                title: Text(task.title),
+                subtitle: Text(task.description),
               ),
             ),
           ),

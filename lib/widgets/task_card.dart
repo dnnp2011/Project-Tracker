@@ -41,6 +41,7 @@ class TaskCard extends StatelessWidget {
           Scaffold.of(context).showSnackBar(
             SnackBar(
               action: SnackBarAction(
+                textColor: Colors.white,
                 label: "Undo",
                 onPressed: () {
                   print('Re-inserting ${this.task}');
@@ -52,26 +53,29 @@ class TaskCard extends StatelessWidget {
             ),
           );
         },
-        background: Container(color: ThemeColors.alert),
-        child: Card(
-          margin: EdgeInsets.symmetric(vertical: 5, horizontal: 12),
-          child: ListTile(
-            key: ValueKey(this.task),
-            onTap: () => this.handleOnTap(context),
-            leading: Container(
-              height: double.infinity,
-              child: Icon(
-                Icons.assignment,
-                size: 35,
+        background: Container(color: ThemeColors.error),
+        child: Container(
+          child: Card(
+            margin: EdgeInsets.symmetric(vertical: 5, horizontal: 12),
+            child: ListTile(
+              key: ValueKey(this.task),
+              onTap: () => this.handleOnTap(context),
+              leading: Container(
+                height: double.infinity,
+                child: Icon(
+                  Icons.assignment,
+                  size: 35,
+                  color: ThemeColors.secondaryDp2,
+                ),
               ),
-            ),
-            title: Text(
-              this.task.title,
-              overflow: TextOverflow.ellipsis,
-            ),
-            subtitle: Text(
-              this.task.description,
-              overflow: TextOverflow.ellipsis,
+              title: Text(
+                this.task.title,
+                overflow: TextOverflow.ellipsis,
+              ),
+              subtitle: Text(
+                this.task.description,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ),
         ),

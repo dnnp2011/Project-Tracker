@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:project_tracker/themes/android_theme.dart';
 import 'package:project_tracker/widgets/fab.dart';
@@ -12,7 +14,6 @@ class TaskDetailsScreen extends StatefulWidget {
   Widget timerWidget;
   Widget insightsWidget;
   GlobalKey<AnimatedListState> animatedListKey;
-  ActivePage _activePage = ActivePage.timer;
 
   TaskDetailsScreen(BuildContext context, GlobalKey<AnimatedListState> animatedListKey) {
     var args = ModalRoute.of(context).settings.arguments as Map;
@@ -27,9 +28,9 @@ class TaskDetailsScreen extends StatefulWidget {
   _TaskDetailsState createState() => _TaskDetailsState();
 }
 
-class _TaskDetailsState extends State<TaskDetailsScreen> {
+class _TaskDetailsState extends State<TaskDetailsScreen> with SingleTickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final PageController _pageController = PageController(initialPage: 0);
+  TabController _tabController;
 
   void openNewTaskForm(BuildContext context) => showModalBottomSheet(
         context: context,
@@ -40,17 +41,15 @@ class _TaskDetailsState extends State<TaskDetailsScreen> {
       );
 
   @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+
+    _tabController = TabController(vsync: this, length: 2);
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_pageController != null && _pageController.hasClients != null) print('Page: ${_pageController?.page}');
-
     return Scaffold(
-      backgroundColor: ThemeColors.scaffoldBackground,
       key: _scaffoldKey,
       appBar: AppBar(
         title: Text("Task Details"),
@@ -59,89 +58,38 @@ class _TaskDetailsState extends State<TaskDetailsScreen> {
         builder: (context) => Fab(context, this.openNewTaskForm),
       ),
       body: Column(
+        mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          SizedBox(
-            height: 10,
+          TabBar(
+            controller: _tabController,
+            indicatorColor: ThemeColors.secondary,
+            tabs: <Tab>[
+              Tab(
+                icon: Icon(
+                  Icons.timer,
+                ),
+              ),
+              Tab(
+                icon: Icon(
+                  Icons.assessment,
+                ),
+              ),
+            ],
           ),
-          Expanded(
-            flex: 2,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+          Flexible(
+            fit: FlexFit.loose,
+            child: TabBarView(
               children: <Widget>[
-                Expanded(
-                  child: LimitedBox(
-                    maxHeight: 50,
-                    maxWidth: MediaQuery.of(context).size.width / 2,
-                    child: FlatButton(
-                      onPressed: () => setState(() {
-                        widget._activePage = ActivePage.timer;
-                      }),
-                      color: Colors.transparent,
-                      child: Column(
-                        children: <Widget>[
-                          Text(
-                            'Timer',
-                            textAlign: TextAlign.center,
-                          ),
-                          Container(
-                            width: 75,
-                            height: 3,
-                            child: Divider(
-                              thickness: _pageController?.page == 0 ? 3 : 1,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: LimitedBox(
-                    maxHeight: 50,
-                    maxWidth: MediaQuery.of(context).size.width / 2,
-                    child: FlatButton(
-                      onPressed: () => setState(() {
-                        widget._activePage = ActivePage.insights;
-                      }),
-                      color: Colors.transparent,
-                      child: Column(
-                        children: <Widget>[
-                          Text(
-                            'Insights',
-                            textAlign: TextAlign.center,
-                          ),
-                          Container(
-                            width: 75,
-                            height: 3,
-                            child: Divider(
-                              thickness: _pageController?.page == 1 ? 3 : 1,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                widget.timerWidget,
+                widget.insightsWidget,
               ],
+              controller: _tabController,
+              physics: ClampingScrollPhysics(),
+              key: UniqueKey(),
+              dragStartBehavior: DragStartBehavior.start,
             ),
-          ),
-          Expanded(
-            flex: 32,
-            child: LimitedBox(
-                maxHeight: 500,
-                maxWidth: 400,
-                child: PageView.builder(
-                  key: UniqueKey(),
-                  itemCount: 2,
-                  scrollDirection: Axis.horizontal,
-                  controller: _pageController,
-                  itemBuilder: (BuildContext context, int page) {
-                    return page == 0 ? widget.timerWidget : widget.insightsWidget;
-                  },
-                )),
           ),
         ],
       ),
