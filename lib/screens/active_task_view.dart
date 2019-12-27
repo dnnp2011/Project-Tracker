@@ -1,10 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project_tracker/themes/android_theme.dart';
+import 'package:flutter/rendering.dart';
+import 'package:project_tracker/themes/theme.dart';
 
 import '../models/Task.dart';
-
-/// TODO: Rebuild the TimerService from scratch given what I now know of the requirements in this Widget
-/// TODO: Start small by creating a local Periodic to drive to Timer, then move to more complex management schemes
 
 class ActiveTask extends StatefulWidget {
   Task task;
@@ -62,55 +61,125 @@ class _ActiveTaskState extends State<ActiveTask> {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: BoxConstraints.loose(MediaQuery.of(context).size),
-      child: Card(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Icon(
-              Icons.access_time,
-              size: 200,
-              color: ThemeColors.primaryLight,
-            ),
-            Text(
-              widget.currentTime.toString().substring(0, 10) ?? '00:00:00',
-              style: Theme.of(context).textTheme.display3,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.all(13),
-                  child: !widget.isTimerRunning
-                      ? RaisedButton(
-                          child: Text(
-                            'Start',
-                            style: Theme.of(context).textTheme.subhead,
-                          ),
-                          onPressed: start,
-                        )
-                      : RaisedButton(
-                          child: Text(
-                            'Stop',
-                            style: Theme.of(context).textTheme.subhead,
-                          ),
-                          onPressed: stop,
-                        ),
-                ),
-                Container(
-                  margin: EdgeInsets.all(13),
-                  child: RaisedButton(
-                    child: Text(
-                      'Lap',
-                      style: Theme.of(context).textTheme.subhead,
-                    ),
-                    onPressed: lap,
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.of(context).size.width,
+        maxHeight: MediaQuery.of(context).size.height,
+      ),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: Constants.defaultPaddingEdgeInset,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Text(
+                'Current Task:',
+                style: Theme.of(context).textTheme.subtitle,
+              ),
+              Constants.columnSpacer,
+              Card(
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    right: Constants.defaultPadding,
+                    left: Constants.defaultPadding,
+                    bottom: Constants.defaultPadding,
+                    top: 3,
                   ),
-                )
-              ],
-            ),
-          ],
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            widget.task.title,
+                            style: Theme.of(context).textTheme.body2,
+                          ),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(360),
+                            child: Container(
+                              height: 40,
+                              width: 40,
+                              child: Material(
+                                color: Colors.transparent,
+                                child: Tooltip(
+                                  message: "Edit task details",
+                                  child: InkResponse(
+                                    containedInkWell: true,
+                                    radius: 48,
+                                    onTap: () => print("Tapped ink response"),
+                                    child: Icon(
+                                      Icons.edit,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Constants.columnSpacer,
+                      Text(
+                        widget.task.description,
+                        style: Theme.of(context).textTheme.body1,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              Card(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Icon(
+                      Icons.access_time,
+                      size: Constants.taskStopwatchIconSize,
+                      color: ThemeColors.primaryLight,
+                    ),
+                    Text(
+                      widget.currentTime.toString().substring(0, 10) ?? '00:00:00',
+                      style: Theme.of(context).textTheme.display3,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          margin: Constants.defaultPaddingEdgeInset,
+                          child: !widget.isTimerRunning
+                              ? RaisedButton(
+                                  child: Text(
+                                    'Start',
+                                    style: Theme.of(context).textTheme.subhead,
+                                  ),
+                                  onPressed: start,
+                                )
+                              : RaisedButton(
+                                  child: Text(
+                                    'Stop',
+                                    style: Theme.of(context).textTheme.subhead,
+                                  ),
+                                  onPressed: stop,
+                                ),
+                        ),
+                        Container(
+                          margin: Constants.defaultPaddingEdgeInset,
+                          child: RaisedButton(
+                            child: Text(
+                              'Lap',
+                              style: Theme.of(context).textTheme.subhead,
+                            ),
+                            onPressed: lap,
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

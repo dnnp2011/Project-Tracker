@@ -12,14 +12,48 @@ class Task extends ChangeNotifier {
   TimerService timerService;
   List<Sprint> sprints;
 
-  Task({@required title, @required description}) {
+  Task({@required title, @required description, sprints, createdAt, modifiedAt}) {
     this.title = title;
     this.description = description;
-    this.createdAt = DateTime.now();
-    this.modifiedAt = DateTime.now();
-    this.sprints = [];
+    this.createdAt = createdAt ?? DateTime.now();
+    this.modifiedAt = modifiedAt ?? DateTime.now();
+    this.sprints = sprints ?? [];
     this.timerService = new TimerService();
     this.timerService.addListener(this.onUpdateTimer);
+  }
+
+  factory Task.fromJson(Map<String, dynamic> taskMap) {
+    Task taskRes = Task(
+      title: taskMap["title"],
+      description: taskMap["description"],
+      createdAt: DateTime.parse(taskMap["createdAt"]),
+      modifiedAt: DateTime.parse(taskMap['modifiedAt']),
+      sprints: Sprint.fromJson(taskMap["sprints"]),
+    );
+
+    print("Task.fromJson res: $taskRes");
+
+    return taskRes;
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "title": this.title,
+      "description": this.description,
+      "createdAt": this.createdAt.toString(),
+      "modifiedAt": this.modifiedAt.toString(),
+      "sprints": sprintsToJson(this.sprints),
+    };
+  }
+
+  Map<String, dynamic> sprintsToJson(List<Sprint> sprintList) {
+    Map<String, dynamic> result = {};
+
+    for (var i = 0; i < sprintList.length; i++) {
+      result[i.toString()] = sprintList[i].toJson();
+    }
+
+    return result;
   }
 
   Sprint get getLastSprint => sprints.length > 0 ? sprints[sprints.length - 1] : null;
@@ -61,11 +95,8 @@ class Task extends ChangeNotifier {
     DateTime start = DateTime.now().subtract(elapsed);
     DateTime stop = DateTime.now();
     print('Adding new Sprint ->\nStart: $start\nStop: $stop\nElapsed: $elapsed');
-    sprints?.add(new Sprint(start, stop));
     addNewSprint(new Sprint(start, stop));
     print('Current Sprints: $sprints');
-
-//    print('Stopping Timer at $getLastSprintDuration');
 
     timerService?.stop();
     notifyListeners();
@@ -119,6 +150,29 @@ class Sprint {
   }
 
   Sprint(this._startTime, this._stopTime) : _elapsed = _stopTime.difference(_startTime);
+
+  Map<String, dynamic> toJson() {
+    return {
+      "startTime": this._startTime.toString(),
+      "stopTime": this._stopTime.toString(),
+    };
+  }
+
+  static List<Sprint> fromJson(Map<String, dynamic> sprintData) {
+    List<Sprint> sprintListRes = [];
+
+    if (sprintData.length > 0) {
+      for (var i = 0; i < sprintData.length; i++) {
+        var thisSprint = sprintData[i.toString()];
+        sprintListRes.add(Sprint(
+          DateTime.parse(thisSprint["startTime"]),
+          DateTime.parse(thisSprint["stopTime"]),
+        ));
+      }
+    }
+
+    return sprintListRes;
+  }
 }
 
 /// A representation of what will be a tabular display of Start, Stop, and Duration values of all [Sprint] in [Task.sprints]
@@ -145,13 +199,3 @@ enum ChartType {
   LineGraph,
   Curve,
 }
-
-//void main() {
-//  final timerService = TimerService();
-//  runApp(
-//    TimerServiceProvider( // provide timer service to all widgets of your app
-//      service: timerService,
-//      child: MyApp(),
-//    ),
-//  );
-//}

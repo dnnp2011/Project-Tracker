@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_tracker/models/TaskCollection.dart';
-import 'package:project_tracker/themes/android_theme.dart';
+import 'package:project_tracker/themes/theme.dart';
 import 'package:provider/provider.dart';
 
 import '../models/Task.dart';
@@ -51,7 +51,7 @@ class _NewTaskFormState extends State<NewTaskForm> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.all(8),
+                    margin: Constants.defaultPaddingEdgeInset,
                     alignment: Alignment.center,
                     child: Column(
                       children: <Widget>[

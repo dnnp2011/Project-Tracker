@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_tracker/models/TaskCollection.dart';
-import 'package:project_tracker/themes/android_theme.dart';
+import 'package:project_tracker/themes/theme.dart';
 import 'package:provider/provider.dart';
 
 import '../models/Task.dart';
@@ -13,28 +13,21 @@ class TaskCard extends StatelessWidget {
 
   TaskCard({this.task, this.index, this.animatedListKey});
 
-  void handleOnTap(BuildContext context) async {
-    print('Tapped Task');
-    print(task ?? 'Task is null');
-
-    final newTask = await Navigator.pushNamed(
-      context,
-      '/task',
-      arguments: {'task': task},
-    );
-
-    if (newTask != null) print('New Task $newTask returned from ActiveTask');
-  }
+  void handleOnTap(BuildContext context) => Navigator.pushNamed(
+        context,
+        '/task',
+        arguments: {'task': task},
+      );
 
   @override
   Widget build(BuildContext context) {
     return Consumer<TaskCollection>(
+      key: UniqueKey(),
       builder: (context, taskCollection, child) => Dismissible(
         key: UniqueKey(),
         onDismissed: (_) {
-          print('Dismissing ${this.task}');
+          print('Deleting ${this.task}');
 
-          /// The dismiss animation is already handled by Dismissable
           animatedListKey.currentState.removeItem(this.index, (context, animation) => null);
           taskCollection.removeTask(this.task);
 
@@ -44,12 +37,12 @@ class TaskCard extends StatelessWidget {
                 textColor: Colors.white,
                 label: "Undo",
                 onPressed: () {
-                  print('Re-inserting ${this.task}');
+                  print('Recovered ${this.task}');
                   animatedListKey.currentState.insertItem(this.index);
                   taskCollection.addTask(this.task);
                 },
               ),
-              content: Text("Dismissed ${this.task.title}"),
+              content: Text("Deleted ${this.task.title}"),
             ),
           );
         },
@@ -80,7 +73,6 @@ class TaskCard extends StatelessWidget {
           ),
         ),
       ),
-      key: UniqueKey(),
     );
   }
 }

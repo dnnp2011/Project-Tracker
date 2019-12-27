@@ -1,3 +1,4 @@
+import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -33,7 +34,7 @@ class ProjectTheme {
 
   static final ThemeData baseTheme = ThemeData(
     cardTheme: CardTheme(
-      elevation: 4,
+      elevation: 1,
       color: ThemeColors.dp2,
     ),
     errorColor: ThemeColors.error,
@@ -52,13 +53,13 @@ class ProjectTheme {
     ),
     colorScheme: primaryColorScheme,
     appBarTheme: AppBarTheme(
-      color: ThemeColors.dp2,
-      elevation: 8,
+      color: ThemeColors.dp4,
+      elevation: 4,
       brightness: Brightness.dark,
     ),
     textTheme: projectTextTheme,
     floatingActionButtonTheme: FloatingActionButtonThemeData(
-      elevation: 6,
+      elevation: 16,
       backgroundColor: ThemeColors.secondaryDp16,
       hoverElevation: 16,
       hoverColor: ThemeColors.secondaryDp16,
@@ -71,6 +72,7 @@ class ProjectTheme {
     snackBarTheme: SnackBarThemeData(
       backgroundColor: ThemeColors.dp4,
       elevation: 4,
+      disabledActionTextColor: ThemeColors.secondaryDp4,
       actionTextColor: ThemeColors.secondaryDp4,
       contentTextStyle: projectTextTheme.body1.copyWith(color: ThemeColors.secondaryDp4),
       behavior: SnackBarBehavior.fixed,
@@ -80,6 +82,10 @@ class ProjectTheme {
       indicatorSize: TabBarIndicatorSize.tab,
       labelPadding: EdgeInsets.all(4),
       unselectedLabelColor: ThemeColors.secondaryLight,
+    ),
+    iconTheme: IconThemeData(
+      color: ThemeColors.secondaryDp2,
+      size: 25,
     ),
   );
 
@@ -125,6 +131,7 @@ class ThemeColors {
   static final onSecondary = Color(0xff000000);
   static final secondaryDark = Color(0xff57daa3);
   static final secondaryLight = Color(0xff007848);
+  static final chartSecondary = charts.Color(r: 26, g: 186, b: 134);
 
   static final secondaryDp1 = Color.fromARGB(255, 8 + percentOf255(5), 168 + percentOf255(5), 116 + percentOf255(5));
   static final secondaryDp2 = Color.fromARGB(255, 8 + percentOf255(7), 168 + percentOf255(7), 116 + percentOf255(7));
@@ -152,24 +159,6 @@ class ThemeColors {
   static final scaffoldBackground = ProjectTheme.primaryColorSwatch.shade100;
   static final background = Color(0xff121212);
   static final onBackground = Color(0xffffffff);
-
-//  static final primaryLight = Colors.purple[200];
-//  static final primaryDark = Colors.purple[800];
-//  static final secondary = Colors.purpleAccent;
-//  static final secondaryLight = Colors.purpleAccent[200];
-//  static final secondaryDark = Colors.purpleAccent[800];
-//  static final accent = Colors.amber;
-//  static final accentLight = Colors.amber[200];
-//  static final accentDark = Colors.amber[800];
-//  static final primaryText = Colors.white;
-//  static final secondaryText = Colors.black;
-//  static final secondaryTextLight = Colors.black26;
-//  static final accentText = ThemeColors.accent;
-//  static final primaryBackground = Colors.white;
-//  static final secondaryBackground = ThemeColors.accent;
-//  static final dark = Colors.black54;
-//  static final black = Colors.black;
-//  static final error = Colors.redAccent;
 }
 
 class Animations {
@@ -177,4 +166,21 @@ class Animations {
   static final Tween<Offset> slideInFromTop = Tween<Offset>(begin: Offset(0.0, -1.0), end: Offset(0.0, 0.0));
   static final Tween<Offset> slideInFromRight = Tween<Offset>(begin: Offset(1.0, 0.0), end: Offset(0.0, 0.0));
   static final Tween<Offset> slideInFromLeft = Tween<Offset>(begin: Offset(-1.0, 0.0), end: Offset(0.0, 0.0));
+}
+
+class Constants {
+  static final SizedBox columnSpacer = SizedBox(height: Constants.smallPadding);
+
+  static final double defaultPadding = 15;
+  static final EdgeInsets defaultPaddingEdgeInset = EdgeInsets.all(Constants.defaultPadding);
+
+  static final double cardPadding = 20;
+  static final EdgeInsets cardPaddingEdgeInset = EdgeInsets.all(Constants.cardPadding);
+
+  static final double smallPadding = 5;
+  static final EdgeInsets smallPaddingEdgeInset = EdgeInsets.all(Constants.smallPadding);
+
+  static final double taskStopwatchIconSize = 200;
+  static final double taskChartContainerSize = 165;
+  static final int taskChartMaxGraphedSprints = 10;
 }

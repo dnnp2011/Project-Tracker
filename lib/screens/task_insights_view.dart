@@ -1,6 +1,7 @@
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:project_tracker/themes/theme.dart';
 
 import '../models/Task.dart';
 
@@ -18,7 +19,7 @@ class TaskHistoryScreen extends StatelessWidget {
         child: ListBody(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(20),
+              padding: Constants.defaultPaddingEdgeInset,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
@@ -26,21 +27,26 @@ class TaskHistoryScreen extends StatelessWidget {
                     'Overview:',
                     style: Theme.of(context).textTheme.subtitle,
                   ),
-                  SizedBox(height: 6),
+                  Constants.columnSpacer,
                   Card(
                     child: Container(
-                      height: 165,
-                      margin: EdgeInsets.all(15),
-                      child: charts.BarChart(List.generate(this.task.sprints.length <= 10 ? this.task.sprints.length : 10, (int index) {
-                        return charts.Series<Sprint, String>(
-                          data: [this.task.sprints.reversed.toList()[index]],
-                          colorFn: (_, __) => charts.Color(r: 26, g: 186, b: 134),
-                          domainFn: (Sprint sprint, _) => index.toString(),
-                          measureFn: (Sprint sprint, _) => sprint.elapsed.inMilliseconds,
-                          id: 'Sprint Duration',
-                          displayName: "Sprint Duration",
-                        );
-                      })),
+                      height: Constants.taskChartContainerSize,
+                      margin: Constants.cardPaddingEdgeInset,
+                      child: charts.BarChart(
+                        List.generate(
+                          this.task.sprints.length <= Constants.taskChartMaxGraphedSprints ? this.task.sprints.length : Constants.taskChartMaxGraphedSprints,
+                          (int index) {
+                            return charts.Series<Sprint, String>(
+                              data: [this.task.sprints.reversed.toList()[index]],
+                              colorFn: (_, __) => ThemeColors.chartSecondary,
+                              domainFn: (Sprint sprint, _) => index.toString(),
+                              measureFn: (Sprint sprint, _) => sprint.elapsed.inMilliseconds,
+                              id: 'Sprint Duration',
+                              displayName: "Sprint Duration",
+                            );
+                          },
+                        ),
+                      ),
                     ),
                   ),
                 ],
