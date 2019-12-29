@@ -1,7 +1,7 @@
+import 'package:Sprintz/models/TaskCollection.dart';
+import 'package:Sprintz/themes/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project_tracker/models/TaskCollection.dart';
-import 'package:project_tracker/themes/theme.dart';
 import 'package:provider/provider.dart';
 
 import '../models/Task.dart';

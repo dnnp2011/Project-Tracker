@@ -169,18 +169,20 @@ class Animations {
 }
 
 class Constants {
-  static final SizedBox columnSpacer = SizedBox(height: Constants.smallPadding);
+  static const String authorDomain = 'https://www.sleeplessdev.io';
 
-  static final double defaultPadding = 15;
-  static final EdgeInsets defaultPaddingEdgeInset = EdgeInsets.all(Constants.defaultPadding);
+  static const SizedBox columnSpacer = SizedBox(height: Constants.smallPadding);
 
-  static final double cardPadding = 20;
-  static final EdgeInsets cardPaddingEdgeInset = EdgeInsets.all(Constants.cardPadding);
+  static const double defaultPadding = 15;
+  static const EdgeInsets defaultPaddingEdgeInset = EdgeInsets.all(Constants.defaultPadding);
 
-  static final double smallPadding = 5;
-  static final EdgeInsets smallPaddingEdgeInset = EdgeInsets.all(Constants.smallPadding);
+  static const double cardPadding = 20;
+  static const EdgeInsets cardPaddingEdgeInset = EdgeInsets.all(Constants.cardPadding);
 
-  static final double taskStopwatchIconSize = 200;
-  static final double taskChartContainerSize = 165;
-  static final int taskChartMaxGraphedSprints = 10;
+  static const double smallPadding = 5;
+  static const EdgeInsets smallPaddingEdgeInset = EdgeInsets.all(Constants.smallPadding);
+
+  static const double taskStopwatchIconSize = 200;
+  static const double taskChartContainerSize = 165;
+  static const int taskChartMaxGraphedSprints = 10;
 }

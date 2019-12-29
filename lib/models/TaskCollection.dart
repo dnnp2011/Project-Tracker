@@ -13,7 +13,7 @@ Future<String> getFilePath() async => await getApplicationDocumentsDirectory().t
 class TaskCollection extends ChangeNotifier {
   List<Task> _tasks = [];
   String _dataPath;
-  final String _fileName = "project_logger_data.json";
+  final String _fileName = "sprintz_data.json";
 
   List<Task> get getTasks => _tasks;
   UnmodifiableListView<Task> get tasks => UnmodifiableListView(getTasks);
@@ -57,7 +57,7 @@ class TaskCollection extends ChangeNotifier {
       _tasks = this.fromJson(contents);
     } else {
       print("No DataFile found, generating defaults");
-      var tmpList = List.generate(2, (int i) => Task(title: "Create a Task", description: "Tap the + button to get started!"));
+      var tmpList = List.generate(1, (int i) => Task(title: "Create a Task", description: "Tap the + button to get started!"));
       _tasks = tmpList;
     }
 
@@ -87,7 +87,15 @@ class TaskCollection extends ChangeNotifier {
     dataFile.writeAsString(encodedTasks);
   }
 
-  String toString() => 'Total Elements: $totalTasks';
+  String toString() {
+    StringBuffer buffer = StringBuffer();
+
+    for (var task in this.tasks) {
+      buffer.writeln(task.toString());
+    }
+
+    return buffer.toString();
+  }
 
   List<Task> fromJson(String content) {
     Map<String, dynamic> decodedContent = jsonDecode(content);

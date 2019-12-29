@@ -1,6 +1,6 @@
-name: project_tracker
-description: A useful task / project tracking application, built with Flutter. Create tasks, and use the built-in stopwatch to track how much time you spend on each task. Remember your previous progress, create individual sprints, and get graphical feedback on your average sprint times, break times, and more.
-version: 1.0.0+1
+name: Sprintz
+description: A handy task and sprint tracking application, built with Flutter. Add new tasks, and use the built in stopwatch to to time your individual sprints. Each time you stop and re-start the timer, a new sprint is created! Sprintz will save your task progress, so you can continue where you left off. Get an overview all your sprints, or take a look at your average sprint duration, and other data insights to come! Use Sprintz to keep track of tasks for a particular client or task if you're a freelancer. Setting a New Years Resolution? Use Sprintz to keep track of your daily, weekly, or monthly goals to make sure you're putting in the time required for self-improvement. Enable periodic alerts in order to play a non-distracting sound or vibration after some length of time elapses, to help you efficiently switch contexts within the larger task. In short, get more productive with Sprintz!
+version: 1.0.0+1p
 
 environment:
   sdk: ">=2.6.0 <3.0.0"
@@ -19,11 +19,17 @@ dependencies:
   url_launcher: ^5.4.1
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.7.4
   flutter_test:
     sdk: flutter
 
 flutter:
   uses-material-design: true
+
+flutter_icons:
+  android: false
+  ios: true
+  image_path: "assets/icon/sprintz_icon.png"
 
   assets:
     - assets/images/
@@ -32,14 +38,3 @@ flutter:
 #   - family: JosefinSans
 #     fonts:
 #       - asset: assets/fonts/JosefinSans-Regular.ttf
-#       - asset: assets/fonts/JosefinSans-Light.ttf
-#         weight: 300
-#       - asset: assets/fonts/JosefinSans-Bold.ttf
-#         weight: 700
-#   - family: LibreFranklin
-#     fonts:
-#       - asset: assets/fonts/LibreFranklin-Regular.ttf
-#       - asset: assets/fonts/LibreFranklin-Light.ttf
-#         weight: 300
-#       - asset: assets/fonts/LibreFranklin-Bold.ttf
-#         weight: 700

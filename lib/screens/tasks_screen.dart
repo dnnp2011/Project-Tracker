@@ -1,11 +1,11 @@
-import 'package:flutter/gestures.dart';
+import 'package:Sprintz/models/TaskCollection.dart';
+import 'package:Sprintz/themes/theme.dart';
+import 'package:Sprintz/utility/better_modal_bottom_sheet.dart';
+import 'package:Sprintz/views/side_drawer_view.dart';
+import 'package:Sprintz/widgets/fab.dart';
+import 'package:Sprintz/widgets/new_task_form.dart';
 import 'package:flutter/material.dart';
-import 'package:project_tracker/models/TaskCollection.dart';
-import 'package:project_tracker/themes/theme.dart';
-import 'package:project_tracker/widgets/fab.dart';
-import 'package:project_tracker/widgets/new_task_form.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../widgets/task_card.dart';
 
@@ -13,29 +13,15 @@ final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 bool darkModeEnabled = true;
 
 class TasksScreen extends StatelessWidget {
-  GlobalKey<AnimatedListState> _animatedListKey;
-  TapGestureRecognizer tapGestureRecognizer;
+  GlobalKey<AnimatedListState> animatedListKey;
 
-  TasksScreen(animatedListKey) {
-    this._animatedListKey = animatedListKey;
-    TapGestureRecognizer()..onTap = () => this._launchURL('https://sleeplessdev.io');
-  }
+  TasksScreen(this.animatedListKey);
 
-  void openNewTaskForm(BuildContext context) => showModalBottomSheet(
+  void openNewTaskForm(BuildContext context) => showBetterModalBottomSheet(
         context: context,
-        builder: (BuildContext _) => NewTaskForm(animatedListKey: _animatedListKey),
-        shape: RoundedRectangleBorder(),
+        builder: (BuildContext _) => NewTaskForm(animatedListKey: animatedListKey),
+//        shape: RoundedRectangleBorder(),
       );
-
-  void _launchURL(String url) async {
-    print("Launching URL");
-
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,62 +31,7 @@ class TasksScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text("Task Details"),
         ),
-        endDrawer: Drawer(
-          key: UniqueKey(),
-          semanticLabel: "Settings Menu",
-          elevation: 24,
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            color: ThemeColors.dp24,
-            child: Padding(
-              padding: Constants.defaultPaddingEdgeInset,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      SizedBox(
-                        height: 50,
-                      ),
-                      SwitchListTile(
-                        onChanged: (bool value) {
-                          print("Clicked Slider");
-                          darkModeEnabled = !darkModeEnabled;
-                        },
-                        value: darkModeEnabled,
-                        title: Text("Dark Mode"),
-                        activeColor: ThemeColors.secondaryDp24,
-                        inactiveThumbColor: Colors.white,
-                        secondary: Icon(
-                          Icons.lightbulb_outline,
-                          color: ThemeColors.secondaryDp24,
-                        ),
-                      ),
-                    ],
-                  ),
-                  RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
-                      text: '',
-                      semanticsLabel: "Built by sleeplessdev.io",
-                      children: [
-                        TextSpan(
-                          text: "Built by\n",
-                          style: Theme.of(context).textTheme.overline,
-                        ),
-                        TextSpan(
-                          text: "sleeplessdev.io",
-                          style: Theme.of(context).textTheme.subhead,
-                          recognizer: tapGestureRecognizer,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
+        endDrawer: SideDrawer(),
         floatingActionButton: Builder(
           builder: (context) => Fab(context, this.openNewTaskForm),
         ),
@@ -136,12 +67,19 @@ class TasksScreen extends StatelessWidget {
               ),
               Expanded(
                 child: AnimatedList(
-                  key: _animatedListKey,
+                  key: animatedListKey,
                   initialItemCount: taskCollection.totalTasks,
                   itemBuilder: (context, index, animation) {
+                    if (index > taskCollection.totalTasks - 1) {
+//                      print("index out of bounds");
+//                      print("Index: $index -> Collection Count: ${taskCollection.totalTasks}");
+//                      print("Collection: \n${taskCollection.toString()}");
+                      return null;
+                    }
+
                     return SlideTransition(
                       position: animation.drive(Animations.slideInFromLeft),
-                      child: TaskCard(task: taskCollection.tasks[index], index: index, animatedListKey: _animatedListKey),
+                      child: TaskCard(task: taskCollection.tasks[index], index: index, animatedListKey: animatedListKey),
                     );
                   },
                 ),

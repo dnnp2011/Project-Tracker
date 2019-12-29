@@ -1,20 +1,15 @@
-// Flutter code sample for
-
-// This sample shows an [AppBar] with two simple actions. The first action
-// opens a [SnackBar], while the second action navigates to a new page.
-
+import 'package:Sprintz/models/TaskCollection.dart';
+import 'package:Sprintz/themes/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:project_tracker/models/TaskCollection.dart';
-import 'package:project_tracker/themes/theme.dart';
 import 'package:provider/provider.dart';
 
 import './screens/task_details_screen.dart';
 import './screens/tasks_screen.dart';
 
-final GlobalKey<AnimatedListState> _animatedListKey = GlobalKey<AnimatedListState>();
-TaskCollection taskCollection = TaskCollection(_animatedListKey);
+final GlobalKey<AnimatedListState> animatedListKey = GlobalKey<AnimatedListState>();
+TaskCollection taskCollection = TaskCollection(animatedListKey);
 
 void main() => runApp(
       ChangeNotifierProvider(
@@ -26,7 +21,7 @@ void main() => runApp(
     );
 
 class ProjectLogger extends StatelessWidget {
-  static const String _title = 'Project Logger';
+  static const String _title = 'Sprintz';
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +33,8 @@ class ProjectLogger extends StatelessWidget {
       initialRoute: '/',
       debugShowCheckedModeBanner: false,
       routes: {
-        '/': (context) => TasksScreen(_animatedListKey),
-        '/task': (context) => TaskDetailsScreen(context, _animatedListKey),
+        '/': (context) => TasksScreen(animatedListKey),
+        '/task': (context) => TaskDetailsScreen(context, animatedListKey),
       },
     );
   }
@@ -54,7 +49,7 @@ class ProjectLogger extends StatelessWidget {
       switch (lifecycle) {
         case AppLifecycleState.resumed:
           print("RESUMING");
-          taskCollection.getTasksFromDeviceStorage(_animatedListKey);
+          taskCollection.getTasksFromDeviceStorage(animatedListKey);
           break;
         case AppLifecycleState.inactive:
           print("INACTIVE");

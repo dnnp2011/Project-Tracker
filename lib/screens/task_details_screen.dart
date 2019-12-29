@@ -1,13 +1,15 @@
+import 'package:Sprintz/themes/theme.dart';
+import 'package:Sprintz/utility/better_modal_bottom_sheet.dart';
+import 'package:Sprintz/views/side_drawer_view.dart';
+import 'package:Sprintz/widgets/fab.dart';
+import 'package:Sprintz/widgets/new_task_form.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:project_tracker/themes/theme.dart';
-import 'package:project_tracker/widgets/fab.dart';
-import 'package:project_tracker/widgets/new_task_form.dart';
 
-import '../models/Task.dart' show Task, TaskInsight;
-import '../screens/task_insights_view.dart';
-import 'active_task_view.dart' show ActiveTask;
+import '../models/Task.dart' show Task;
+import '../views/active_task_view.dart' show ActiveTask;
+import '../views/task_insights_view.dart';
 
 class TaskDetailsScreen extends StatefulWidget {
   Task task;
@@ -32,12 +34,11 @@ class _TaskDetailsState extends State<TaskDetailsScreen> with SingleTickerProvid
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   TabController _tabController;
 
-  void openNewTaskForm(BuildContext context) => showModalBottomSheet(
+  void openNewTaskForm(BuildContext context) => showBetterModalBottomSheet(
         context: context,
         builder: (BuildContext _) => NewTaskForm(
           animatedListKey: widget.animatedListKey,
         ),
-        shape: RoundedRectangleBorder(),
       );
 
   @override
@@ -54,6 +55,7 @@ class _TaskDetailsState extends State<TaskDetailsScreen> with SingleTickerProvid
       appBar: AppBar(
         title: Text("Task Details"),
       ),
+      endDrawer: SideDrawer(),
       floatingActionButton: Builder(
         builder: (context) => Fab(context, this.openNewTaskForm),
       ),

@@ -1,7 +1,7 @@
+import 'package:Sprintz/models/TaskCollection.dart';
+import 'package:Sprintz/themes/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:project_tracker/models/TaskCollection.dart';
-import 'package:project_tracker/themes/theme.dart';
 import 'package:provider/provider.dart';
 
 import '../models/Task.dart';
@@ -55,10 +55,13 @@ class TaskCard extends StatelessWidget {
               onTap: () => this.handleOnTap(context),
               leading: Container(
                 height: double.infinity,
-                child: Icon(
-                  Icons.assignment,
-                  size: 35,
-                  color: ThemeColors.secondaryDp2,
+                child: ConstrainedBox(
+                  constraints: BoxConstraints.tight(Size.fromWidth(35)),
+                  child: Icon(
+                    Icons.assignment,
+                    size: 35,
+                    color: ThemeColors.secondaryDp2,
+                  ),
                 ),
               ),
               title: Text(
