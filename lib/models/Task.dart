@@ -1,5 +1,5 @@
+import 'package:Sprintz/models/Sprint.dart';
 import 'package:flutter/foundation.dart' show required, ChangeNotifier;
-import 'package:intl/intl.dart';
 
 import '../services/TimerService.dart';
 
@@ -56,11 +56,20 @@ class Task extends ChangeNotifier {
     return result;
   }
 
+  void updateLastSprintEndTime(DateTime timestamp) {
+    Sprint lastSprint = this.getLastSprint;
+    if (lastSprint != null) {
+      print("lastSprint is defined: $lastSprint");
+      lastSprint?.updateStopTime(timestamp);
+    } else
+      print("lastSprint is null: $lastSprint");
+  }
+
   Sprint get getLastSprint => sprints.length > 0 ? sprints[sprints.length - 1] : null;
 
-  Duration get getLastSprintDuration => getLastSprint?._elapsed;
+  Duration get getLastSprintDuration => getLastSprint?.elapsed;
 
-  Duration get getPreviousSprintDuration => sprints[sprints.length - 2]?._elapsed;
+  Duration get getPreviousSprintDuration => sprints[sprints.length - 2]?.elapsed;
 
   int get numSprints => sprints?.length;
 
@@ -71,6 +80,13 @@ class Task extends ChangeNotifier {
   Task get getTask => this;
 
   void addNewSprint(Sprint sprint) => sprints.add(sprint);
+
+  void continueLastSprint(DateTime start, DateTime stop) {
+    Sprint lastSprint = this.getLastSprint;
+
+    lastSprint.updateStartTime(start);
+    lastSprint.updateStopTime(stop);
+  }
 
   void start() {
     if (isRunning) {
@@ -94,12 +110,12 @@ class Task extends ChangeNotifier {
     Duration elapsed = timerService.currentDuration;
     DateTime start = DateTime.now().subtract(elapsed);
     DateTime stop = DateTime.now();
-    print('Adding new Sprint ->\nStart: $start\nStop: $stop\nElapsed: $elapsed');
-    addNewSprint(new Sprint(start, stop));
+    print('Updating last sprint ->\nStart: $start\nStop: $stop\nElapsed: $elapsed');
+    continueLastSprint(start, stop);
     print('Current Sprints: $sprints');
 
+//    notifyListeners();
     timerService?.stop();
-    notifyListeners();
   }
 
   // Reset the clock and start a new Sprint
@@ -133,55 +149,13 @@ class Task extends ChangeNotifier {
   String toString() => 'TASK: { title: $title, description: $description, numSprints: $numSprints, lastTime: $getLastSprintDuration, createdAt: $createdAt }';
 }
 
-/// A single [Task] session, represented by when the [Task] was started([_startTime]), stopped([_stopTime]), and the total [elapsed] time
-class Sprint {
-  DateTime _startTime;
-  DateTime _stopTime;
-  Duration _elapsed;
-
-  Duration get elapsed => _elapsed ?? _stopTime.difference(_startTime);
-  DateTime get lastModified => _stopTime;
-  String get formattedLastModified {
-    final String monthFormat = DateFormat("MMMM").format(lastModified);
-    final String dayFormat = DateFormat("d").format(lastModified);
-    final String yearFormat = DateFormat("y").format(lastModified);
-
-    return "$monthFormat $dayFormat, $yearFormat";
-  }
-
-  Sprint(this._startTime, this._stopTime) : _elapsed = _stopTime.difference(_startTime);
-
-  Map<String, dynamic> toJson() {
-    return {
-      "startTime": this._startTime.toString(),
-      "stopTime": this._stopTime.toString(),
-    };
-  }
-
-  static List<Sprint> fromJson(Map<String, dynamic> sprintData) {
-    List<Sprint> sprintListRes = [];
-
-    if (sprintData.length > 0) {
-      for (var i = 0; i < sprintData.length; i++) {
-        var thisSprint = sprintData[i.toString()];
-        sprintListRes.add(Sprint(
-          DateTime.parse(thisSprint["startTime"]),
-          DateTime.parse(thisSprint["stopTime"]),
-        ));
-      }
-    }
-
-    return sprintListRes;
-  }
-}
-
 /// A representation of what will be a tabular display of Start, Stop, and Duration values of all [Sprint] in [Task.sprints]
 class TaskHistory {
   List<Map> history;
 
   TaskHistory(Task task) {
     history = task.sprints.map((sprint) {
-      return {'start': sprint._startTime, 'stop': sprint._stopTime, 'elapsed': sprint._elapsed};
+      return {'start': sprint.startTime, 'stop': sprint.stopTime, 'elapsed': sprint.elapsed};
     }).toList();
   }
 }

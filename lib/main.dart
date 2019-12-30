@@ -42,25 +42,22 @@ class ProjectLogger extends StatelessWidget {
   /// Hooks into the App's Lifecycle State in order to save changes to Tasks that have not yet been stored
   void configureLifecycleHook() {
     SystemChannels.lifecycle.setMessageHandler((String lifecycleString) {
-      debugPrint('SystemChannels State -> $lifecycleString');
       AppLifecycleState lifecycle = AppLifecycleState.values.firstWhere((e) => e.toString() == lifecycleString);
       assert(lifecycle != null, "String '$lifecycleString' could not be cast to AppLifecycleState");
 
       switch (lifecycle) {
-        case AppLifecycleState.resumed:
+        case AppLifecycleState.resumed: // Triggers once the app is active again, iOS and Android
           print("RESUMING");
           taskCollection.getTasksFromDeviceStorage(animatedListKey);
           break;
-        case AppLifecycleState.inactive:
-          print("INACTIVE");
-          taskCollection.saveTasksToDeviceStorage();
-          break;
-        case AppLifecycleState.paused:
+        case AppLifecycleState.paused: // Triggers when app is moved to the background, iOS and Android
           print("PAUSED");
           taskCollection.saveTasksToDeviceStorage();
           break;
+        case AppLifecycleState.inactive: // Triggers when app goes into an inactive state, iOS only
+          print("INACTIVE");
+          break;
         case AppLifecycleState.detached:
-          taskCollection.saveTasksToDeviceStorage();
           print("DETACHED");
           break;
         default:

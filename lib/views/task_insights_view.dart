@@ -1,3 +1,4 @@
+import 'package:Sprintz/models/Sprint.dart';
 import 'package:Sprintz/themes/theme.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/cupertino.dart';
